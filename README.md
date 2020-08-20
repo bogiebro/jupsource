@@ -23,6 +23,12 @@ search them for unit test definitions with `pytest`, and import them into other 
 This library does not add menu items to create scripts to the Jupyter file browser. If you want
 to edit a new script, just `touch` the file, and open the empty script in Jupyter.
 
+If you want to convert an existing notebook into a script, run
+
+```
+python -m jupsource [notebook_name.ipynb] [script_name.py]
+```
+
 ### Comparison with Jupytext
 
 This project is similar to [Jupytext](jupytext.readthedocs.io/), but has important differences:
