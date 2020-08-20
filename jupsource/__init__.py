@@ -50,22 +50,25 @@ metadata = {
     }
 }
 
+def convert_to_script(content, comment):
+    os.environ["COMMENT"] = comment
+    result = to_py.first(content)
+    str_results = []
+    for a in result:
+        if a["wrapit"]:
+            str_results.append("\n".join([comment + " " + l for l in textwrap.wrap(
+                a["source"], width=78)]))
+        else:
+            str_results.append(a["source"])
+    return "\n\n".join(str_results)
+
 class TextFileManager(LargeFileManager):
     def save(self, model, path):
         path = path.strip("/")
         ext = os.path.splitext(path)[1]
         if "type" in model and model["type"] == "notebook" and ext in metadata:
             with open(path, "w") as f:
-                os.environ["COMMENT"] = comments[ext]
-                result = to_py.first(model["content"])
-                str_results = []
-                for a in result:
-                    if a["wrapit"]:
-                        str_results.append("\n".join([comments[ext] + " " + l for l in textwrap.wrap(
-                            a["source"], width=78)]))
-                    else:
-                        str_results.append(a["source"])
-                f.writelines("\n\n".join(str_results))
+                f.writelines(convert_to_script(model["content"], comments[ext]))
             statbuf = os.stat(path)
             name = os.path.basename(path)
             last_modified = datetime.datetime.fromtimestamp(statbuf.st_mtime)
