@@ -1,5 +1,5 @@
 def trim:
-  sub("\\G\\s+"; ""; "m") | sub("\\s+\\z"; ""; "m"); 
+  ((try join("") catch null) // .) | sub("\\G\\s+"; ""; "m") | sub("\\s+\\z"; ""; "m"); 
 
 def magic_comment:
   if any(test(";$")) then

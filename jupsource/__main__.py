@@ -5,7 +5,6 @@ import json
 
 
 if __name__ == "__main__":
-    print("ARGS ARE", sys.argv)
     if len(sys.argv) < 3:
         print("Usage: python -m jupsource [notebook.ipynb] [output.py]")
     else:
